@@ -1,80 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css">
     <title>Student finance tracker</title>
 </head>
+
 <body>
-        <!-- Accessibility to skip links -->
-         <a href="#main-content" class="skip-link">
-            Skip to content
-         </a>
-         <header>
-            <h1>
-                Student Finance Tracker
-            </h1>
+    <!-- Accessibility to skip links -->
+    <a href="#main-content" class="skip-link">
+        Skip to content
+    </a>
+    <header>
+        <h1>
+            Student Finance Tracker
+        </h1>
+
+        <p>
+            Track your expenses, manage your budget, and understand your spending.
+        </p>
+
+        <nav aria-label="Main Navigation">
+
+            <ul>
+
+                <li>
+                    <a href="#about">About</a>
+                </li>
+
+                <li>
+                    <a href="#dashboard">Dashboard</a>
+                </li>
+
+                <li>
+                    <a href="#records">Transactions</a>
+                </li>
+
+                <li>
+                    <a href="#add">Add Expense</a>
+                </li>
+
+                <li>
+                    <a href="#settings">Settings</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+    </header>
+
+    <main id="main-content">
+
+        <!--   1. ABOUT -->
+        <section id="about">
+            <h2>
+                About
+            </h2>
 
             <p>
-                Track your expenses, manage your budget, and understand your spending.
+                This application helps students track daily expenses,
+                monitor budgets and analyze their spending habits.
             </p>
 
-            <nav aria-label="Main Navigation">
+            <p>
+                Developer:
+                Kevin Karagire Ishimwe
 
-                <ul>
+            </p>
 
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
+            <p>
+                Github:
+                <a href="https://github.com/kevinishimwe2/student-finance-tracker.git">
+                    My Github
+                </a>
+            </p>
 
-                    <li>
-                        <a href="#dashboard">Dashboard</a>
-                    </li>
+            <p>
+                Email:
+                karagirekevin@gmail.com
+            </p>
 
-                    <li>
-                        <a href="#records">Transactions</a>
-                    </li>
+        </section>
 
-                    <li>
-                        <a href="#add">Add Expense</a>
-                    </li>
+        <!-- 2. Dashboard -->
+        <section id="dashboard">
 
-                    <li>
-                        <a href="#settings">Settings</a>
-                    </li>
+            <h2>
+                Dashboard
+            </h2>
 
-                </ul>
+            <div class="dash-cards">
 
-            </nav>
+                <article class="card">
+                    <h3>
+                        Total Transactions
+                    </h3>
 
-         </header>
+                    <p id="tot-records">
+                        0
+                    </p>
+                </article>
 
-         <main id="main-content">
+                <article class="card">
+                    <h3>
+                        Total Spent
+                    </h3>
 
-            <!--    ABOUT -->
-              <section id="about">
-                <h2>
-                    About
-                </h2>
+                    <p id="tot-amount">
+                        0
+                    </p>
+                </article>
 
-                <p>
-                    This application helps students track daily expenses,
-                    monitor budgets and analyze their spending habits.
-                </p>
+                <article class="card">
+                    <h3>
+                        Categories
+                    </h3>
 
-                <p>
-                    Developer:
-                    Kevin Karagire Ishimwe
+                    <p id="category">
+                        None
+                    </p>
+                </article>
 
-                </p>
+            </div>
 
-                <p>
-                    Github:
-                    <a href=""></a>
-                </p>
-              </section>  
-         </main>
-    
+            <div>
+
+                <h3>
+                    Last 7 Days Spending
+                </h3>
+
+                <div id="chart" aria-label="Spending chart">
+
+                </div>
+
+
+            </div>
+
+            <p id="budget-message" role="status" aria-live="polite">
+
+            </p>
+        </section>
+
+
+        <!-- 3.Transactions -->
+
+        <section id="records">
+
+
+            <h2>
+                Transactions
+            </h2>
+
+            <label>
+
+                <input type="text" id="search" placeholder="Try coffee or .50 regex">
+            </label>
+            <div id="records-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Description
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Actions
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="transaction-list">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </section>
+
+
+        <!-- 4.Add Expense using a form -->
+
+        <section id="add">
+
+            <h2>
+                Add Expense
+            </h2>
+
+            <form id="expense-form">
+                <label for="descript">
+                    Description
+                </label>
+                <input id="descript" type="text" name="description" required>
+
+                <label for="amount">
+                    Amount
+                </label>
+                <input type="number" name="amount" id="amount" step="0.01" required>
+
+
+                <label for="category">
+                    Category
+
+                </label>
+
+                <select id="category">
+                    <option>
+                        Food
+                    </option>
+
+                    <option>
+                        Books
+                    </option>
+
+                    <option>
+                        Entertainment
+                    </option>
+
+                    <option>
+                        Transport
+                    </option>
+
+                    <option>
+                        Other
+                    </option>
+
+                </select>
+
+                <label for="date">
+                    Date
+                </label>
+                <input type="date" id="date" required>
+
+                <button type="submit">
+                    Save
+                </button>
+
+            </form>
+
+            <p id="form-message" role="alert">
+
+            </p>
+        </section>
+
+        <section id="settings">
+
+            <h2>
+                Settings
+            </h2>
+
+            <label for="currency">
+                Base Currency
+            </label>
+            <select name="" id="currency">
+                <option>
+                    USD
+                </option>
+
+                <option>
+                    RWF
+                </option>
+
+                <option>
+                    EUR
+                </option>
+            </select>
+
+            <label for="cap">
+                Budget Limit
+            </label>
+
+            <input type="number" id="cap" placeholder="5000">
+
+            <button id="save-settings">
+                Save
+            </button>
+        </section>
+    </main>
+
+
+    <footer>
+
+        <p>
+            © 2026 Student Finance Tracker
+        </p>
+    </footer>
+
 </body>
+
 </html>
