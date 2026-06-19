@@ -14,32 +14,46 @@ export const getCurrencySymbol = () => {
   return currency === 'RWF' ? 'RWF ' : currency === 'EUR' ? '€' : '$';
 };
 
-export const formatAmount = (amount) => {
+// Converts a raw (USD-denominated) amount into the currently selected
+// display currency, using the manual rates from Settings.
+export const convertAmount = (amount) => {
   const { currency, rateRWF, rateEUR } = getSettings();
-  let converted = amount;
-  if (currency === 'RWF') converted = amount * (rateRWF || 1380);
-  if (currency === 'EUR') converted = amount * (rateEUR || 0.92);
-  return `${getCurrencySymbol()}${converted.toFixed(2)}`;
+  if (currency === 'RWF') return amount * (rateRWF || 1380);
+  if (currency === 'EUR') return amount * (rateEUR || 0.92);
+  return amount;
+};
+
+export const formatAmount = (amount) => `${getCurrencySymbol()}${convertAmount(amount).toFixed(2)}`;
+
+const formatTimestamp = (iso) => {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  if (isNaN(d)) return '—';
+  return d.toLocaleString('en', { dateStyle: 'short', timeStyle: 'short' });
 };
 
 export const renderTable = (records, regex, onEdit, onDelete) => {
   const tbody = document.getElementById('transaction-list');
 
   if (!records.length) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="5">No transactions yet. Add one below.</td></tr>`;
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="8">No transactions yet. Add one below.</td></tr>`;
     return;
   }
 
   tbody.innerHTML = records.map((r) => {
     const descHtml = highlight(r.description, regex);
+    const idHtml = highlight(r.id, regex);
     const badgeClass = CATEGORY_BADGES[r.category] || 'badge-other';
 
     return `
       <tr>
+        <td>${idHtml}</td>
         <td>${descHtml}</td>
         <td class="amount-cell">${formatAmount(r.amount)}</td>
         <td><span class="badge ${badgeClass}">${r.category}</span></td>
         <td>${r.date}</td>
+        <td>${formatTimestamp(r.createdAt)}</td>
+        <td>${formatTimestamp(r.updatedAt)}</td>
         <td>
           <div class="row-actions">
             <button class="btn-edit" data-id="${r.id}" type="button" aria-label="Edit ${r.description}">Edit</button>
@@ -64,12 +78,16 @@ export const renderTable = (records, regex, onEdit, onDelete) => {
 export const renderDashboard = (records) => {
   const { cap } = getSettings();
   const symbol = getCurrencySymbol();
-  const total = records.reduce((s, r) => s + r.amount, 0);
+
+  // Sum raw amounts first, THEN convert the total once — converting each
+  // amount individually and summing would also work, but summing raw
+  // values first avoids compounding rounding error across many rows.
+  const rawTotal = records.reduce((s, r) => s + r.amount, 0);
+  const displayTotal = convertAmount(rawTotal);
 
   document.getElementById('tot-records').textContent = records.length;
-  document.getElementById('tot-amount').textContent = `${symbol}${total.toFixed(2)}`;
+  document.getElementById('tot-amount').textContent = `${symbol}${displayTotal.toFixed(2)}`;
 
-  // "Categories" card -> top category by frequency
   const catCounts = {};
   records.forEach((r) => { catCounts[r.category] = (catCounts[r.category] || 0) + 1; });
   const topCat = Object.entries(catCounts).sort((a, b) => b[1] - a[1])[0];
@@ -78,7 +96,10 @@ export const renderDashboard = (records) => {
   const msgEl = document.getElementById('budget-message');
 
   if (cap) {
-    const remaining = cap - total;
+    // `cap` is entered by the user in whatever currency is currently
+    // selected, so compare it against the converted (displayTotal),
+    // not the raw USD total.
+    const remaining = parseFloat(cap) - displayTotal;
     if (remaining >= 0) {
       msgEl.textContent = `${symbol}${remaining.toFixed(2)} remaining of your ${symbol}${parseFloat(cap).toFixed(2)} budget.`;
       msgEl.className = 'under';
@@ -108,7 +129,7 @@ export const renderChart = (records) => {
   });
 
   const dayTotals = days.map((day) =>
-    records.filter((r) => r.date === day).reduce((s, r) => s + r.amount, 0)
+    records.filter((r) => r.date === day).reduce((s, r) => s + convertAmount(r.amount), 0)
   );
 
   const max = Math.max(...dayTotals, 0.01);

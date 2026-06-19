@@ -34,6 +34,8 @@ export const setRecords = (records) => {
   save(_records);
 };
 
+export const idExists = (id) => _records.some((r) => r.id === id);
+
 export const getSettings = () => ({ ..._settings });
 
 export const updateSettings = (updates) => {

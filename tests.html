@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/tests.css">
+    <title>Unit Tests - Finance Tracker</title>
+    
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Test Assertion Suite</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.2rem;">Milestone 3 (M3) Validation Proofs</p>
+            </div>
+            <a href="index.html" class="back-link">← Return to App</a>
+        </header>
+
+        <!-- Stats Overview Panel -->
+        <div class="stats-card">
+            <div class="stat">
+                <span class="stat-label">Total Run</span>
+                <span class="stat-value" id="total-run">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Passed</span>
+                <span class="stat-value passed" id="total-passed">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Failed</span>
+                <span class="stat-value failed" id="total-failed">0</span>
+            </div>
+        </div>
+
+        <!-- Render Target for Test Modules -->
+        <div id="test-suites"></div>
+    </div>
+
+    <script type="module" src="scripts/tests.js">
+        
+    </script>
+</body>
+
+</html>

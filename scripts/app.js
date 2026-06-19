@@ -1,16 +1,16 @@
-
-import { getRecords, addRecord, updateRecord, deleteRecord, setRecords, generateId, getSettings, updateSettings } from './state.js';
+import { getRecords, addRecord, updateRecord, deleteRecord, setRecords, generateId, idExists, getSettings, updateSettings } from './state.js';
 import { validateDescription, validateAmount, validateDate } from './validators.js';
 import { searchRecords } from './search.js';
 import { renderTable, renderDashboard, showFormMsg } from './ui.js';
 import { exportJSON, validateImport } from './storage.js';
 
-// ── Step 1.Element refs (matching the corrected IDs) ──────────
+// ── Element refs ─────────────────────────────────────────
 const form = document.getElementById('expense-form');
+const idInput = document.getElementById('id_nbr');
 const descInput = document.getElementById('descript');
 const amountInput = document.getElementById('amount');
 const dateInput = document.getElementById('date');
-const categorySelect = document.getElementById('expense-category'); // no more collision
+const categorySelect = document.getElementById('expense-category');
 const searchInput = document.getElementById('search');
 const caseToggle = document.getElementById('case-toggle');
 const settingsBtn = document.getElementById('save-settings');
@@ -20,14 +20,14 @@ const exportBtn = document.getElementById('export-btn');
 const importFile = document.getElementById('import-file');
 const sortButtons = document.querySelectorAll('.sort-btn');
 
-// ──Step 2. Local state ─────────────────────────────────────────
+// ── Local state ─────────────────────────────────────────
 let searchPattern = '';
 let caseSensitive = false;
 let editingId = null;
 let sortField = 'date';
 let sortDir = -1; // newest first by default
 
-// ──Step 3. Render ──────────────────────────────────────────────
+// ── Render ──────────────────────────────────────────────
 const refresh = () => {
   let all = getRecords();
 
@@ -50,10 +50,11 @@ const refresh = () => {
   renderDashboard(getRecords());
 };
 
-// ──4. Add / Edit submit ───────────────────────────────────
+// ── Add / Edit submit ───────────────────────────────────
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
+  const typedId = idInput.value.trim();
   const desc = descInput.value;
   const amount = amountInput.value;
   const date = dateInput.value;
@@ -80,8 +81,17 @@ form.addEventListener('submit', (e) => {
     editingId = null;
     form.querySelector('button[type="submit"]').textContent = 'Save';
   } else {
+    // Use the typed ID if given and not already taken; otherwise auto-generate.
+    let id = typedId || generateId();
+    if (typedId && idExists(typedId)) {
+      idInput.classList.add('error');
+      showFormMsg(`ID "${typedId}" is already in use. Choose another or leave blank.`, 'error');
+      return;
+    }
+    idInput.classList.remove('error');
+
     addRecord({
-      id: generateId(),
+      id,
       description: desc,
       amount: parseFloat(amount),
       category,
@@ -101,6 +111,8 @@ const handleEdit = (id) => {
   if (!record) return;
 
   editingId = id;
+  idInput.value = record.id;
+  idInput.disabled = true; // IDs aren't editable once a record exists
   descInput.value = record.description;
   amountInput.value = record.amount;
   categorySelect.value = record.category;
@@ -117,7 +129,12 @@ const handleDelete = (id) => {
   refresh();
 };
 
-// ── 5.Search ──────────────────────────────────────────────
+// Re-enable the ID field after a reset (covers both normal save and edit-cancel-by-reload cases)
+form.addEventListener('reset', () => {
+  idInput.disabled = false;
+});
+
+// ── Search ──────────────────────────────────────────────
 searchInput.addEventListener('input', (e) => {
   searchPattern = e.target.value.trim();
   refresh();
@@ -128,7 +145,7 @@ caseToggle.addEventListener('change', (e) => {
   refresh();
 });
 
-// ── 6.Sort ────────────────────────────────────────────────
+// ── Sort ────────────────────────────────────────────────
 sortButtons.forEach((btn) => {
   btn.addEventListener('click', () => {
     const field = btn.dataset.sort;
@@ -144,7 +161,7 @@ sortButtons.forEach((btn) => {
   });
 });
 
-// ── 7.Export / Import ─────────────────────────────────────
+// ── Export / Import ─────────────────────────────────────
 exportBtn.addEventListener('click', () => {
   exportJSON(getRecords());
 });
@@ -164,7 +181,7 @@ importFile.addEventListener('change', async (e) => {
   e.target.value = '';
 });
 
-// ──8. Settings ────────────────────────────────────────────
+// ── Settings ────────────────────────────────────────────
 const loadSettingsUI = () => {
   const s = getSettings();
   currencySelect.value = s.currency || 'USD';
@@ -182,6 +199,6 @@ settingsBtn.addEventListener('click', (e) => {
   refresh();
 });
 
-// ── 9.Init ────────────────────────────────────────────────
+// ── Init ────────────────────────────────────────────────
 loadSettingsUI();
 refresh();
