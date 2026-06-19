@@ -1,38 +1,101 @@
 [
-    {
-        "id": "txn_1",
-        "description": "Lunch at cafeteria",
-        "amount": 12.50,
-        "category": "Food",
-        "date": "2025-09-25",
-        "createdAt": "...",
-        "updatedAt": "..."
-    },
-    {
-        "id": "txn_2",
-        "description": "Chemistry textbook",
-        "amount": 89.99,
-        "category": "Books",
-        "date": "2025-09-23",
-        "createdAt": "...",
-        "updatedAt": "..."
-    },
-    {
-        "id": "txn_3",
-        "description": "Bus pass",
-        "amount": 45.00,
-        "category": "Transport",
-        "date": "2025-09-20",
-        "createdAt": "...",
-        "updatedAt": "..."
-    },
-    {
-        "id": "txn_4",
-        "description": "Coffee with friends",
-        "amount": 8.75,
-        "category": "Entertainment",
-        "date": "2025-09-28",
-        "createdAt": "...",
-        "updatedAt": "..."
-    }
+  {
+    "id": "txn_0001",
+    "description": "Lunch at cafeteria",
+    "amount": 12.50,
+    "category": "Food",
+    "date": "2026-06-10",
+    "createdAt": "2026-06-10T12:30:00",
+    "updatedAt": "2026-06-10T12:30:00"
+  },
+  {
+    "id": "txn_0002",
+    "description": "JavaScript programming book",
+    "amount": 45.99,
+    "category": "Books",
+    "date": "2026-06-11",
+    "createdAt": "2026-06-11T09:15:00",
+    "updatedAt": "2026-06-11T09:15:00"
+  },
+  {
+    "id": "txn_0003",
+    "description": "Bus transport card",
+    "amount": 25.00,
+    "category": "Transport",
+    "date": "2026-06-12",
+    "createdAt": "2026-06-12T08:20:00",
+    "updatedAt": "2026-06-12T08:20:00"
+  },
+  {
+    "id": "txn_0004",
+    "description": "Coffee with friends",
+    "amount": 6.75,
+    "category": "Entertainment",
+    "date": "2026-06-13",
+    "createdAt": "2026-06-13T16:45:00",
+    "updatedAt": "2026-06-13T16:45:00"
+  },
+  {
+    "id": "txn_0005",
+    "description": "University semester fees",
+    "amount": 300.00,
+    "category": "Fees",
+    "date": "2026-06-14",
+    "createdAt": "2026-06-14T10:00:00",
+    "updatedAt": "2026-06-14T10:00:00"
+  },
+  {
+    "id": "txn_0006",
+    "description": "Tea and snacks",
+    "amount": 4.50,
+    "category": "Food",
+    "date": "2026-06-15",
+    "createdAt": "2026-06-15T14:10:00",
+    "updatedAt": "2026-06-15T14:10:00"
+  },
+  {
+    "id": "txn_0007",
+    "description": "Notebook and stationery",
+    "amount": 18.25,
+    "category": "Books",
+    "date": "2026-06-16",
+    "createdAt": "2026-06-16T11:40:00",
+    "updatedAt": "2026-06-16T11:40:00"
+  },
+  {
+    "id": "txn_0008",
+    "description": "Movie ticket",
+    "amount": 15.00,
+    "category": "Entertainment",
+    "date": "2026-06-17",
+    "createdAt": "2026-06-17T19:20:00",
+    "updatedAt": "2026-06-17T19:20:00"
+  },
+  {
+    "id": "txn_0009",
+    "description": "Taxi ride",
+    "amount": 22.80,
+    "category": "Transport",
+    "date": "2026-06-18",
+    "createdAt": "2026-06-18T07:50:00",
+    "updatedAt": "2026-06-18T07:50:00"
+  },
+  {
+    "id": "txn_0010",
+    "description": "Coffee coffee meeting",
+    "amount": 9.99,
+    "category": "Other",
+    "date": "2026-06-19",
+    "createdAt": "2026-06-19T13:00:00",
+    "updatedAt": "2026-06-19T13:00:00"
+  },
+  {
+    "id": "txn_0011",
+    "description": "Internet subscription",
+    "amount": 35.00,
+    "category": "Other",
+    "date": "2026-05-29",
+    "createdAt": "2026-05-29T18:30:00",
+    "updatedAt": "2026-05-29T18:30:00"
+  }
 ]
