@@ -1,0 +1,695 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #0d0f14;
+    --bg-card: #151820;
+    --bg-input: #1a1d26;
+    --bg-hover: #1f2330;
+    --accent: #6c63ff;
+    --accent-dim: #4e47c0;
+    --green: #22d3a5;
+    --red: #f4636b;
+    --amber: #f9a825;
+    --text: #e8eaf0;
+    --text-muted: #7a7f96;
+    --border: #252836;
+    --border-hi: #353a52;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --font: 'Segoe UI', system-ui, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* ── Accessibility ───────────────────────── */
+.skip-link {
+    position: absolute;
+    top: -9999px;
+    left: 1rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    z-index: 9999;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ── Header ──────────────────────────────── */
+header {
+    background: #10121a;
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+}
+
+header h1 {
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+}
+
+header>p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.85rem;
+}
+
+nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    list-style: none;
+}
+
+nav a {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+}
+
+nav a:hover,
+nav a:focus-visible {
+    color: var(--text);
+    background: var(--bg-hover);
+}
+
+/* ── Main / Sections ─────────────────────── */
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    animation: fadeIn 0.3s ease both;
+}
+
+section>h2 {
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75rem;
+}
+
+section>p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* ── About ───────────────────────────────── */
+#about a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+#about a:hover {
+    text-decoration: underline;
+}
+
+/* ── Dashboard cards ─────────────────────── */
+.dash-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: border-color 0.15s;
+}
+
+.card:hover {
+    border-color: var(--border-hi);
+}
+
+.card h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.card p {
+    font-size: 1.65rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+}
+
+/* ── Chart ───────────────────────────────── */
+#dashboard>div:not(.dash-cards) {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.1rem 1.4rem;
+}
+
+#dashboard h3 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+#chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 120px;
+    padding-bottom: 1.5rem;
+    position: relative;
+}
+
+#chart::after {
+    content: '';
+    position: absolute;
+    bottom: 1.5rem;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border);
+}
+
+.bar-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    gap: 4px;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.bar {
+    width: 100%;
+    background: var(--accent);
+    border-radius: 4px 4px 0 0;
+    opacity: 0.85;
+    transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s;
+    min-height: 2px;
+}
+
+.bar:hover {
+    opacity: 1;
+}
+
+.bar.empty {
+    background: var(--border);
+    opacity: 0.4;
+}
+
+.bar-label {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+#budget-message {
+    font-size: 0.875rem;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius);
+    border-left: 3px solid transparent;
+    min-height: 1.2em;
+}
+
+#budget-message.under {
+    border-color: var(--green);
+    color: var(--green);
+    background: rgba(34, 211, 165, 0.07);
+}
+
+#budget-message.over {
+    border-color: var(--red);
+    color: var(--red);
+    background: rgba(244, 99, 107, 0.07);
+}
+
+/* ── Dashboard data actions ──────────────── */
+.dash-data-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.dash-data-actions button,
+.dash-data-actions .import-label {
+    background: transparent;
+    border: 1px solid var(--border-hi);
+    color: var(--text-muted);
+    border-radius: var(--radius);
+    padding: 0.45rem 0.9rem;
+    font-size: 0.8rem;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-block;
+}
+
+.dash-data-actions button:hover,
+.dash-data-actions .import-label:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+}
+
+#import-file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+/* ── Case toggle ──────────────────────────── */
+.case-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-transform: none;
+    font-weight: 400;
+    letter-spacing: normal;
+}
+
+.case-toggle-label input {
+    cursor: pointer;
+    accent-color: var(--accent);
+}
+
+/* ── Sort controls ────────────────────────── */
+#sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.sort-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.sort-btn:hover {
+    color: var(--text);
+    border-color: var(--border-hi);
+}
+
+.sort-btn.active {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: rgba(108, 99, 255, 0.1);
+}
+
+
+#records label {
+    display: block;
+    max-width: 360px;
+}
+
+#search {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 0.55rem 0.9rem;
+    font-size: 0.9rem;
+    font-family: var(--font);
+    transition: border-color 0.15s;
+}
+
+#search:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+#search::placeholder {
+    color: var(--text-muted);
+}
+
+#records-container {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+thead {
+    background: #10121a;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: var(--bg-hover);
+}
+
+.amount-cell {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+mark {
+    background: rgba(249, 168, 37, 0.3);
+    color: var(--amber);
+    border-radius: 2px;
+    padding: 0 2px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    border-radius: 5px;
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+.badge-food {
+    background: rgba(249, 168, 37, 0.15);
+    color: var(--amber);
+}
+
+.badge-books {
+    background: rgba(108, 99, 255, 0.15);
+    color: #a09bff;
+}
+
+.badge-transport {
+    background: rgba(34, 211, 165, 0.15);
+    color: var(--green);
+}
+
+.badge-entertainment {
+    background: rgba(244, 99, 107, 0.15);
+    color: var(--red);
+}
+
+.badge-other {
+    background: rgba(122, 127, 150, 0.15);
+    color: var(--text-muted);
+}
+
+.row-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.btn-edit,
+.btn-delete {
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    border: 1px solid;
+    cursor: pointer;
+    font-family: var(--font);
+    transition: background 0.15s;
+}
+
+.btn-edit {
+    background: rgba(108, 99, 255, 0.1);
+    border-color: rgba(108, 99, 255, 0.4);
+    color: #a09bff;
+}
+
+.btn-edit:hover {
+    background: rgba(108, 99, 255, 0.25);
+}
+
+.btn-delete {
+    background: rgba(244, 99, 107, 0.1);
+    border-color: rgba(244, 99, 107, 0.4);
+    color: var(--red);
+}
+
+.btn-delete:hover {
+    background: rgba(244, 99, 107, 0.25);
+}
+
+.empty-row td {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: var(--text-muted);
+}
+
+/* ── Forms (Add Expense + Settings) ──────── */
+#expense-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 480px;
+}
+
+#expense-form label,
+#settings label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+#expense-form input,
+#expense-form select,
+#settings input,
+#settings select {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 0.55rem 0.85rem;
+    font-size: 0.9rem;
+    font-family: var(--font);
+    width: 100%;
+    max-width: 480px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+#expense-form input:focus,
+#expense-form select:focus,
+#settings input:focus,
+#settings select:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+}
+
+#expense-form input.error {
+    border-color: var(--red);
+}
+
+input::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+}
+
+select option {
+    background: #1a1d26;
+}
+
+#expense-form button,
+#settings button {
+    align-self: flex-start;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.6rem 1.6rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    margin-top: 0.25rem;
+}
+
+#expense-form button:hover,
+#settings button:hover {
+    background: var(--accent-dim);
+}
+
+#expense-form button:active,
+#settings button:active {
+    transform: scale(0.98);
+}
+
+#form-message {
+    font-size: 0.85rem;
+    min-height: 1.2em;
+}
+
+#form-message.success {
+    color: var(--green);
+}
+
+#form-message.error {
+    color: var(--red);
+}
+
+/* ── Settings ─────────────────────────────── */
+#settings {
+    max-width: 480px;
+}
+
+#settings select,
+#settings input {
+    margin-bottom: 0.9rem;
+}
+
+/* ── Footer ──────────────────────────────── */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* ── Breakpoints ─────────────────────────── */
+@media (max-width: 768px) {
+    .dash-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card p {
+        font-size: 1.3rem;
+    }
+
+    th,
+    td {
+        padding: 0.55rem 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    main {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    header {
+        padding: 1rem;
+    }
+
+    .dash-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .card p {
+        font-size: 1.1rem;
+    }
+
+    nav a {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* ── Animation ───────────────────────────── */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    .bar,
+    section {
+        animation: none !important;
+        transition: none !important;
+    }
+}
